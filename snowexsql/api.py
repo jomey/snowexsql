@@ -92,7 +92,8 @@ def get_points():
 #   * implement 'like' or 'contains' method
 class BaseDataset:
     """
-    Base class for all SnowEx measurement dataset accessors.
+    Base API access class for all SnowEx measurement dataset providing common
+    query methods and shared attributes.
 
     Provides filtering, querying, and property-based access to measurements
     stored in the SnowEx database. Subclasses must set ``MODEL`` to the
@@ -577,7 +578,8 @@ class BaseDataset:
 
 class PointMeasurements(BaseDataset):
     """
-    API class for access to PointData
+    API class for access to PointData from a single location.
+    Examples: Snow Depth, SWE
     """
 
     MODEL = PointData
@@ -706,7 +708,8 @@ class TooManyRastersException(Exception):
 
 class LayerMeasurements(BaseDataset):
     """
-    API class for access to LayerData
+    API class for access to LayerData.
+    Examples: Snow pit observations (depth, density, temperature), SMP
     """
 
     MODEL = LayerData
@@ -878,6 +881,10 @@ class LayerMeasurements(BaseDataset):
 
 
 class RasterMeasurements(BaseDataset):
+    """
+    Early beta class for handling data stored in raster datasets.
+    """
+
     MODEL = ImageData
     ALLOWED_QRY_KWARGS = BaseDataset.ALLOWED_QRY_KWARGS + ["description"]
 
