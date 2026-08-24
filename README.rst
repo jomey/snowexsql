@@ -39,6 +39,9 @@ database using Python.
 
 .. _SnowEx database: https://www.github.com/SnowEx/snowex_db
 
+All data in the SnowEx database is publicly available and can be accessed via the
+[public records at the National Snow and Ice Data Center](https://nsidc.org/data/snowex/data).
+The data are a raw import of all the CSV files and not curated or cleaned
 
 Installing
 ----------
@@ -66,18 +69,23 @@ Accessing the Database
 
 There are two ways to access the SnowEx database. The preferred way is to use
 the **Lambda Client**, which does not require setting up credentials locally
-with a user installation. The local **Python API** (this library) connects to
-the database from the local host, which requires authentication setup and has
-less limits on returned records. However, it is more technical to query the
-database directly, and is not recommended for standard users. Rather than
-retrieving a large number of records the user is encouraged to use the filters
-to reduce the amount of data to the needed rows.
+after a user installation and all queries are fully supported. There is a limit
+of 1000 records returned per query, which is sufficient for most use cases and
+good filtering.
+
+Another option is to connect directely from your local machine to the database,
+which requires [authentication setup](#configuring-the-database-connection)
+and has less limits on returned records. However, it is more technical to query
+the database directly, and is recommended for advanced use cases. Rather than
+retrieving a large number of records the user is encouraged to use the filters to
+reduce the amount of data to the needed rows. See the `SnowEx Database Tutorial`_
+for examples of filtering and querying the database.
 
 Due to the heavy dependencies of GeoPandas on other libraries, the Lambda Client
 was stripped down to features that are only available via Pandas. The returned
 dataframe still has the ability to be converted to a GeoPandas dataframe locally.
 
-**Lambda client (no credentials required)**
+**Lambda Client (no credentials required) - Preferred **
     The recommended approach for most users. The ``SnowExLambdaClient`` connects
     to a public Amazon AWS Lambda Function URL that proxies queries to the
     database. No AWS account or database credentials are needed.
@@ -92,7 +100,7 @@ dataframe still has the ability to be converted to a GeoPandas dataframe locally
 
         df = PointMeasurements.from_filter(type='depth', limit=100)
 
-**Direct database access via local API (credentials required)**
+**Direct database access via local client (credentials required) - Technical users**
     For advanced users with database credentials, the ``snowexsql.api`` classes
     can be used directly. This path also supports raster queries (in beta).
 
